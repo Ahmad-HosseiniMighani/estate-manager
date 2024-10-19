@@ -50,9 +50,12 @@ class AreaManagement extends Form {
 
   handleDelete = async (areaId) => {
     $("#delete_area").hide();
+
     const originalAreas = this.state.areas;
-    const areas = this.state.areas.filter((n) => n.id !== areaId);
+    const areas = this.state.areas.filter((n) => n.documentId !== areaId);
+
     this.setState({ areas });
+
     try {
       await auth.deleteArea(areaId);
       toast.success("منطقه با موفقیت حذف شد.");
@@ -66,13 +69,16 @@ class AreaManagement extends Form {
     this.setState({ modalData });
     $("#delete_area").show();
   };
+
   handleEdit = (area) => {
     window.location =
       process.env.PUBLIC_URL + "/edit-area/" + area.documentId + "/" + area.area_name;
   };
+
   // handleView = (area) => {
   //     window.location = process.env.PUBLIC_URL + "/areas/" + area.id;
   // };
+
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
   };

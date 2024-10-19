@@ -28,7 +28,7 @@ class AreasTable extends Component {
                     <i className="fas fa-edit d-flex align-self-center justify-content-center py-1"></i>
                 </button>
                 <button
-                    onClick={() => this.props.onClick(areas.id)}
+                    onClick={() => this.props.onClick(areas.documentId)}
                     className="btn btn-outline-danger btn-sm"
                     style={{ height: "35px", width: "35px" }}
                 >

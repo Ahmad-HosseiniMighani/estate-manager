@@ -164,10 +164,11 @@ export async function editArea(data,area_id){
 }
 
 export async function deleteArea(area_id){
-  let tempHttp = newInstance(getJwt());
-  const apiEndPoint = apiUrl + `/AreaApi/area/?id=${area_id}`;
+  const tempHttp = newInstance(getJwt());
+  const apiEndPoint = apiUrl + `/areas/${area_id}`;
   const result = await tempHttp.delete(apiEndPoint);
-  return result.data;
+
+  return result;
 }
 
 export async function addNotif(data){
