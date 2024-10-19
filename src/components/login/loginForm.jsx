@@ -2,7 +2,6 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "../common/form";
 import auth from "../../services/authService";
-// import { Link } from "react-router-dom";
 import Lds from './../common/lds';
 
 class LoginForm extends Form {
@@ -12,7 +11,7 @@ class LoginForm extends Form {
   };
 
   schema = {
-    username: Joi.string() //change to number
+    username: Joi.string()
       .required()
       .label("نام کاربری")
       .error((errors) => this.ErrorsLang(errors)),
@@ -25,17 +24,13 @@ class LoginForm extends Form {
   doSubmit = async () => {
     try {
       const { data } = this.state;
-      const res = await auth.login(data.username, data.password);
+      await auth.login(data.username, data.password);
   
-      // console.log(res);
-      // window.location = process.env.PUBLIC_URL + "/";
+      window.location = process.env.PUBLIC_URL + "/";
     } catch (ex) {
       const errors = { ...this.state.errors };
-      console.log('>>> shit');
-      console.log('>>> ex:', ex);
 
       if (ex.response && (ex.response.status === 401 || ex.response.status === 400)) {
-        // errors.username = ex.response.data.detail; //translate it
         errors.username = "نام کاربری یا رمزعبور اشتباه است";
       }
 
@@ -60,9 +55,6 @@ class LoginForm extends Form {
         }
         {!isLoggedIn &&(
           <React.Fragment>
-            {/* <span className="text-center login-icon mt-n5">
-              <i className="fas fa-user bg-white"></i>
-            </span> */}
             <h4 className="text-center text-muted py-3">ورود به پنل مدیریت</h4>
             <form onSubmit={this.handleSubmit}>
               {this.renderInput("username", "نام کاربری")}

@@ -6,7 +6,6 @@ import { apiUrl } from "../config.json";
 const accessToken = "accessToken";
 const refreshToken = "refreshToken";
 
-// http.setJwt(getJwt());
 function newInstance(Jwt) {
   let tempHttp = http.createInstance();
   tempHttp.defaults.headers.common["Authorization"] = `Bearer ${Jwt}`;
@@ -40,12 +39,15 @@ export function getCurrentUser() {
 
 export async function getUserProfile() {
   let tempHttp = newInstance(getJwt());
-  const apiEndPoint = `${apiUrl}/UserApi/user/`;
+  const apiEndPoint = `${apiUrl}/users/me`;
+
   try {
     const userProfile = await tempHttp.get(apiEndPoint);
-    return userProfile.data.message;
+
+    return userProfile;
   } catch (ex) {
     logout();
+
     return null;
   }
 }

@@ -21,9 +21,7 @@ import LogOut from './components/logout/logout';
 class App extends Component {
   state = { isRequestDone:false }; //comment it
   async componentDidMount() {
-    // const userId = auth.getCurrentUser();
     const userProfile = await auth.getUserProfile();
-    // this.setState({ userId, userProfile });
     const isRequestDone = true;
 
     this.setState({ userProfile,isRequestDone });
