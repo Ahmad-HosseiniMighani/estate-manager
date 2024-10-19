@@ -24,7 +24,8 @@ class App extends Component {
     // const userId = auth.getCurrentUser();
     const userProfile = await auth.getUserProfile();
     // this.setState({ userId, userProfile });
-    const isRequestDone=true;
+    const isRequestDone = true;
+
     this.setState({ userProfile,isRequestDone });
   }
   render() {
@@ -34,7 +35,7 @@ class App extends Component {
       const { userProfile } = this.state;
       LoggedIn = userProfile;
     }
-    //LoggedIn = true; //comment it
+    // LoggedIn = true; //comment it
     return (
       <React.Fragment>
         <ToastContainer />

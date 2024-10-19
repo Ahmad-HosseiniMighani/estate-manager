@@ -10,6 +10,7 @@ class LoginForm extends Form {
     data: { username: "", password: "" },
     errors: {},
   };
+
   schema = {
     username: Joi.string() //change to number
       .required()
@@ -20,28 +21,34 @@ class LoginForm extends Form {
       .label("رمز عبور")
       .error((errors) => this.ErrorsLang(errors)),
   };
+
   doSubmit = async () => {
     try {
       const { data } = this.state;
       const res = await auth.login(data.username, data.password);
+  
       // console.log(res);
-      window.location = process.env.PUBLIC_URL + "/";
+      // window.location = process.env.PUBLIC_URL + "/";
     } catch (ex) {
       const errors = { ...this.state.errors };
-      const IsRequestDone = true;
-      if (ex.response && ex.response.status === 401) {
-      // errors.username = ex.response.data.detail; //translate it
+      console.log('>>> shit');
+      console.log('>>> ex:', ex);
+
+      if (ex.response && (ex.response.status === 401 || ex.response.status === 400)) {
+        // errors.username = ex.response.data.detail; //translate it
         errors.username = "نام کاربری یا رمزعبور اشتباه است";
-        this.setState({ errors });
       }
-    this.setState({ errors });
+
+      this.setState({ errors });
     }
   };
   handleRedirect(){
     window.location = process.env.PUBLIC_URL;
   }
+
   render() {
     const {isLoggedIn} = this.props;
+
     return (
       <div className="form-login">
         <div className="card col-lg-4 col-md-5 col-sm-7 col-10 mx-auto mt-5 px-5 pb-5">
