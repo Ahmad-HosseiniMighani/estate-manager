@@ -152,16 +152,15 @@ export async function addArea(data){
   const apiEndPoint = apiUrl + "/areas";
   const result = await tempHttp.post(apiEndPoint, { data });
 
-  console.log('>>> result', result);
-
   return result;
 }
 
 export async function editArea(data,area_id){
-  let tempHttp = newInstance(getJwt());
-  const apiEndPoint = apiUrl + `/AreaApi/area/?id=${area_id}`;
-  const result = await tempHttp.put(apiEndPoint,data);
-  return result.data;
+  const tempHttp = newInstance(getJwt());
+  const apiEndPoint = apiUrl + `/areas/${area_id}`;
+  const result = await tempHttp.put(apiEndPoint,{ data });
+
+  return result;
 }
 
 export async function deleteArea(area_id){

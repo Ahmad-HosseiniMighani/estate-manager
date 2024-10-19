@@ -68,7 +68,7 @@ class AreaManagement extends Form {
   };
   handleEdit = (area) => {
     window.location =
-      process.env.PUBLIC_URL + "/edit-area/" + area.id + "/" + area.area_name;
+      process.env.PUBLIC_URL + "/edit-area/" + area.documentId + "/" + area.area_name;
   };
   // handleView = (area) => {
   //     window.location = process.env.PUBLIC_URL + "/areas/" + area.id;
