@@ -82,9 +82,12 @@ export async function getSpecificProperty(id) {
 }
 
 export async function getAllAreas() {
-  const apiEndPoint = apiUrl + "/AreaApi/area/all/";
+  const apiEndPoint = apiUrl + "/areas/";
   const result = await http.get(apiEndPoint);
-  return result.data.message;
+
+  console.log('>>> result', result);
+
+  return result;
 }
 
 export async function getAllNotifs() {
@@ -145,10 +148,13 @@ export async function delPropertyArea(property_id,area_id){
 }
 
 export async function addArea(data){
-  let tempHttp = newInstance(getJwt());
-  const apiEndPoint = apiUrl + "/AreaApi/area/";
-  const result = await tempHttp.post(apiEndPoint,data);
-  return result.data;
+  const tempHttp = newInstance(getJwt());
+  const apiEndPoint = apiUrl + "/areas";
+  const result = await tempHttp.post(apiEndPoint, { data });
+
+  console.log('>>> result', result);
+
+  return result;
 }
 
 export async function editArea(data,area_id){
