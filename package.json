@@ -1,0 +1,62 @@
+{
+  "name": "estate-manager",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
+    "@popperjs/core": "^2.9.2",
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.6",
+    "@testing-library/user-event": "^12.8.3",
+    "@types/lodash": "^4.14.170",
+    "axios": "^0.21.1",
+    "bootstrap": "^5.0.0",
+    "joi-browser": "^13.4.0",
+    "jquery": "^3.6.0",
+    "js-tokens": "^4.0.0",
+    "jwt-decode": "^3.1.2",
+    "lodash": "^4.17.21",
+    "loose-envify": "^1.4.0",
+    "multiselect-react-dropdown": "^1.6.11",
+    "object-assign": "^4.1.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-image-magnifiers": "^1.4.0",
+    "react-images-uploading": "^3.1.2",
+    "react-input-position": "^1.3.2",
+    "react-is": "^17.0.2",
+    "react-justified-grid": "^1.0.0",
+    "react-paginate": "^7.1.2",
+    "react-responsive-carousel": "^3.2.18",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-toastify": "^7.0.4",
+    "vazir-font": "^28.0.0",
+    "web-vitals": "^1.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
