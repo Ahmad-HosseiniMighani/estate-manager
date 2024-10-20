@@ -1,7 +1,7 @@
 import jwtDecode from "jwt-decode";
 // import moment from "jalali-moment";
 import http from "./httpService";
-import { apiUrl } from "../config.json";
+import { apiUrl, url } from "../config.js";
 
 const accessToken = "accessToken";
 const refreshToken = "refreshToken";
@@ -53,17 +53,10 @@ export async function getUserProfile() {
 }
 
 export async function getAllProperty() {
-  console.log('>>> asdasd');
-  const testApiEndPoint = apiUrl + "/api/properties";
-  const testResult = await http.get(testApiEndPoint);
-
-  console.log('>>> test result', testResult);
-
-  const apiEndPoint = apiUrl + "/PropertyApi/PropertiesTimeLine/";
+  const apiEndPoint = apiUrl + "/properties?populate=*&pagination[pageSize]=10000";
   const result = await http.get(apiEndPoint);
 
-
-  return result.data.message;
+  return result;
 }
 
 export async function getfilteredProperties({maxPrice,minPrice,foundationMax,foundationMin,p_id},area,propertyState,paymentType,propertyType,roomCount) {
@@ -76,10 +69,10 @@ export async function getfilteredProperties({maxPrice,minPrice,foundationMax,fou
 }
 
 export async function getSpecificProperty(id) {
-  const apiEndPoint = apiUrl + "/PropertyApi/Property/?id="+id;
+  const apiEndPoint = apiUrl + `/properties/${id}?populate=*`;
   const result = await http.get(apiEndPoint);
 
-  return result.data;
+  return result;
 }
 
 export async function getAllAreas() {
@@ -199,7 +192,8 @@ export async function uploadImage(image) {
 }
 
 export function getImageUrl(imageSrc) {
-  return apiUrl+imageSrc;
+  console.log(apiUrl+imageSrc)
+  return url+imageSrc;
 }
 
 export function getJwt() {

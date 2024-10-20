@@ -53,7 +53,8 @@ class Home extends Component {
 
         }
         try {
-            const properties = await auth.getAllProperty();
+            const { data: { data: properties = [] } ={} } = await auth.getAllProperty();
+
             this.setState({
                 properties,
                 IsRequestDone: true,
@@ -101,6 +102,7 @@ class Home extends Component {
         const {pageCount, IsRequestDone} = this.state;
         const { length: count } = this.state.properties;
         const properties = this.getFilteredData();
+
         return ( 
             <React.Fragment>
                 <Modal
