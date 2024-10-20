@@ -29,10 +29,12 @@ class App extends Component {
   render() {
     let LoggedIn = null;
     const { isRequestDone } = this.state;
+
     if (this.state) {
       const { userProfile } = this.state;
       LoggedIn = userProfile;
     }
+
     // LoggedIn = true; //comment it
     return (
       <React.Fragment>

@@ -97,10 +97,10 @@ export async function getAllNotifs() {
 }
 
 export async function addProperty(data,images,areas) {
-  let tempHttp = newInstance(getJwt());
-  const apiEndPoint = apiUrl + `/PropertyApi/PropertyCrud/?areas=${areas}&images=${images}`;
-  const result = await tempHttp.post(apiEndPoint,data);
-  // console.log(result.data)
+  const tempHttp = newInstance(getJwt());
+  const apiEndPoint = apiUrl + `/properties`;
+  const result = await tempHttp.post(apiEndPoint, { data });
+
   return result.data;
 }
 
