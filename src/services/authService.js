@@ -78,14 +78,13 @@ export async function getfilteredProperties({maxPrice,minPrice,foundationMax,fou
 export async function getSpecificProperty(id) {
   const apiEndPoint = apiUrl + "/PropertyApi/Property/?id="+id;
   const result = await http.get(apiEndPoint);
+
   return result.data;
 }
 
 export async function getAllAreas() {
   const apiEndPoint = apiUrl + "/areas/";
   const result = await http.get(apiEndPoint);
-
-  console.log('>>> result', result);
 
   return result;
 }
@@ -96,12 +95,12 @@ export async function getAllNotifs() {
   return result.data;
 }
 
-export async function addProperty(data,images,areas) {
+export async function addProperty(data) {
   const tempHttp = newInstance(getJwt());
   const apiEndPoint = apiUrl + `/properties`;
   const result = await tempHttp.post(apiEndPoint, { data });
 
-  return result.data;
+  return result;
 }
 
 export async function deleteProperty(id) {
@@ -188,13 +187,15 @@ export async function deleteNotif(notif_id){
 
 export async function uploadImage(image) {
   const uploadData = new FormData();
+
   uploadData.append("description", "");
-  uploadData.append("image", image, image.name);
-  let tempHttp = newInstance(getJwt());
-  const apiEndPoint = apiUrl + "/PropertyImage/UploadImages/";
-  const result = await tempHttp.post(apiEndPoint,uploadData);
-  // console.log(result.data)
-  return result.data;
+  uploadData.append("files", image, image.name);
+
+  const tempHttp = newInstance(getJwt());
+  const apiEndPoint = apiUrl + "/upload/";
+  const result = await tempHttp.post(apiEndPoint,  uploadData);
+
+  return result;
 }
 
 export function getImageUrl(imageSrc) {

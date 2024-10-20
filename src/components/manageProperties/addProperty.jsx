@@ -240,23 +240,30 @@ class AddProperty extends Form {
       }
     }
   };
+
   async handleUploadImage(data) {
     try {
       const res = await auth.uploadImage(data.file);
-      // console.log(res)
-      if (res.status_code !== 200) throw "upload Failled";
-      data.uploadinfo = res.message;
-      // console.log(res.message)
-      data.uploadStatus = "Successfull";
+
+      if (!(res.status === 200 || res.status === 201)) {
+        throw "Upload failed";
+      }
+
+      data.uploadInfo = res.data[0];
+      data.uploadStatus = "Successful";
+
       return data;
     } catch (error) {
       toast.error(
         "مشکلی در ارتباط با سرور پیش آمد و عکس آپلود نشد. از فرمت فایل مورد نظر مطمئن باشید."
       );
-      data.uploadStatus = "Failled";
+
+      data.uploadStatus = "Failed";
+
       return data;
     }
   }
+
   handleBooleanPropetyOnClick = (item) => {
     const data = { ...this.state.data };
     data[item.key] = !data[item.key];
@@ -276,54 +283,50 @@ class AddProperty extends Form {
   }
   doSubmit = async () => {
     const { data, images, thumbnail } = this.state;
-		// console.log('>>> data:', data);
-		// return;
-
-    const tempImages = [];
+    const galleryImages = [];
     const { areas = [] } = data || {};
     const areasDocId = areas.map(({ documentId }) => documentId);
-    // const tempAreas = [];
-
-    // for (let i = 0; i < data.areas.length; i++) {
-    //   tempAreas.push(data.areas[i].id);
-    // }
-
-    // console.log(tempAreas)
-    // delete data.areas;
-    data.areas = { connect: areasDocId }
+    data.areas = { connect: areasDocId };
 
     try {
       for (let i = 0; i < images.length; i++) {
-        if (images[i].uploadinfo !== undefined) {
-          tempImages.push(images[i].uploadinfo.id);
+        if (images[i].uploadInfo !== undefined) {
+          galleryImages.push(images[i].uploadInfo.url);
         }
       }
 
-      if (thumbnail[0] !== undefined && thumbnail[0].uploadinfo !== undefined) {
-        data.thumbnail = thumbnail[0].uploadinfo.url;
+      data.gallery = JSON.stringify(galleryImages);
+
+      if (thumbnail[0] !== undefined && thumbnail[0].uploadInfo !== undefined) {
+        data.thumbnail = thumbnail[0].uploadInfo.url;
       }
 
-      console.log('>>> data', data);
-      console.log('>>> tempImages', tempImages);
-      console.log('>>> areasDocId', areasDocId);
-      const res = await auth.addProperty(data, tempImages, areasDocId);
+      const {
+        data: { data: { documentId } = {} } = {},
+        status,
+        message
+      } = await auth.addProperty(data);
 
-      if (res.status_code !== 200) {
-        throw res.message;
+      if (!(status === 200 || status === 201)) {
+        throw message;
       }
 
-      // window.location.replace("/propery/" + res.message);
+
+      window.location.replace("/property/" + documentId);
     } catch (error) {
-      console.log(error);
+      console.log('error', error);
       toast.error("ملک مورد نظر ثبت نشد. لطفا ورودی های خود را چک کنید.");
     }
   };
 
   render() {
     const { images, thumbnail, boolanProperty_choics, data } = this.state;
-    // const { isLoggedIn } = this.props;
-    const isLoggedIn = true;
-    // if (!isLoggedIn) window.location = process.env.PUBLIC_URL + "/";
+    const { isLoggedIn } = this.props;
+
+    if (!isLoggedIn) {
+      window.location = process.env.PUBLIC_URL + "/";
+    }
+
     return (
       <section id="add-property">
         {isLoggedIn && (
