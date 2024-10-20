@@ -12,31 +12,54 @@ class Property extends Component {
         IsRequestDone: false,
         data: "",
     }
+
     async componentDidMount() {
         try {
-            const rawData = await auth.getSpecificProperty(this.props.match.params.id);
-            // console.log(rawData)
-            if(isNaN(this.props.match.params.id) || rawData.status_code!==200) throw "Error";
-            const data= this.separateData(rawData.message,rawData.area,rawData.images);
+            const result = await auth.getSpecificProperty(this.props.match.params.id);
+
+            if(!(result.status === 200 || result.status === 201)) {
+                throw "Error";
+            }
+
+            const { data: { data: rawData = [] } = {} } = result;
+            const data = this.separateData(rawData, rawData.areas, rawData.gallery);
+
             this.setState({
                 data,
                 IsRequestDone: true,
              });
         } catch (error) {
+            console.log('error', error);
             toast.error("مشکلی در ارتباط با سرور پیش آمد :(");
             this.setState({ IsRequestDone: true });
         }
     }
-    separateData(data,area,images){
-        let result={
-            booleanProperties:{},
-            stringProperties:{},
-            propertyinfo:{}
+
+    separateData(data, areas, images){
+        let result = {
+            booleanProperties: {},
+            stringProperties: {},
+            propertyInfo: {}
         };
+
         for (let item in data){
-            if(item == "thumbnail" || item == "address" || item == "postalCode" || item == "releaseDateTime" || item == "ownerName" || item == "id"){
-                result.propertyinfo[item]= data[item];
-            }else if(typeof data[item] == "boolean"){
+            if (
+                item == "thumbnail"
+                || item == "address"
+                || item == "postal_code"
+                || item == "owner_name"
+                || item == "id"
+                || item == "documentId"
+                || item == "areas"
+                || item == "createdAt"
+                || item == "gallery"
+                || item == "locale"
+                || item == "localizations"
+                || item == "updatedAt"
+                || item == "publishedAt"
+            ) {
+                result.propertyInfo[item]= data[item];
+            } else if (typeof data[item] == "boolean") {
                 switch(item){
                     case "parking":
                         result.booleanProperties[item]= {
@@ -100,19 +123,19 @@ class Property extends Component {
                         break;
                     case "hall":
                         result.booleanProperties[item]= {
-                            key: "هال؟",
+                            key: "هال",
                             value: data[item]
                         };
                         break;
                     case "communities":
                         result.booleanProperties[item]= {
-                            key: "ارتباطات؟",
+                            key: "ارتباطات",
                             value: data[item]
                         };
                         break;
                     case "air_conditioner":
                         result.booleanProperties[item]= {
-                            key: "کولر؟",
+                            key: "کولر",
                             value: data[item]
                         };
                         break;
@@ -161,7 +184,7 @@ class Property extends Component {
                     default:
                         result.booleanProperties[item]= data[item];
                     }
-            }else{
+            } else {
                 switch(item){
                     case "foundation":
                         result.stringProperties[item]= {
@@ -169,7 +192,7 @@ class Property extends Component {
                             value: new Intl.NumberFormat().format(data[item])
                         };
                         break;
-                    case "roomCount":
+                    case "room_count":
                         if(data[item]>0){
                             result.stringProperties[item]= {
                                 key: "تعداد اتاق",
@@ -196,55 +219,55 @@ class Property extends Component {
                             };
                         }
                         break;
-                    case "floorCount":
+                    case "floor_count":
                         result.stringProperties[item]= {
                             key: "تعداد طبقات",
                             value: data[item]+ " طبقه"
                         };
                         break;
-                    case "unitPerFloor":
+                    case "unit_per_floor":
                         result.stringProperties[item]= {
                             key: "تعداد واحد در هر طبقه",
                             value: data[item]+ " واحد"
                         };
                         break;
-                    case "ageOfBuilding":
+                    case "age_of_building":
                         result.stringProperties[item]= {
                             key: "سن بنا",
                             value: data[item]+ " سال"
                         };
                         break;
-                    case "paymentType":
+                    case "payment_type":
                         result.stringProperties[item]= {
                             key: "نوع فروش",
                             value: data[item]
                         };
                         break;
-                    case "buildingType":
+                    case "building_type":
                         result.stringProperties[item]= {
                             key: "نوع ساختمان",
                             value: data[item]
                         };
                         break;
-                    case "floorCover":
+                    case "floor_cover":
                         result.stringProperties[item]= {
                             key: "کفپوش",
                             value: data[item]
                         };
                         break;
-                    case "viewOfBuilding":
+                    case "view_of_building":
                         result.stringProperties[item]= {
                             key: "نمای ساختمان",
                             value: data[item]
                         };
                         break;
-                    case "propertyState":
+                    case "property_state":
                         result.stringProperties[item]= {
                             key: "شرایط ساختمان",
                             value: data[item]
                         };
                         break;
-                    case "entryType":
+                    case "entry_type":
                         result.stringProperties[item]= {
                             key: "نوع ورودی",
                             value: data[item]
@@ -267,9 +290,10 @@ class Property extends Component {
                     }
             }
         }
-        result.propertyinfo["area"]= area;
-        result.propertyinfo["images"]= images;
-        // console.log(result.propertyinfo["images"])
+
+        result.propertyInfo["areas"]= areas;
+        result.propertyInfo["images"]= JSON.parse(images || '');
+
         return result;
     }
     handleBooleanProperty(value){
@@ -288,9 +312,9 @@ class Property extends Component {
         const booleanProperties = {...this.state.data.booleanProperties};
         let images = [];
         let areas = [];
-        if(this.state.data !=="") {
-            images = [...this.state.data.propertyinfo.images];
-            areas = [...this.state.data.propertyinfo.area]
+        if(this.state.data !== "") {
+            images = [...this.state.data.propertyInfo.images];
+            areas = [...this.state.data.propertyInfo.areas]
         }
         const {IsRequestDone, data} = this.state;
         // console.log(data)
@@ -315,7 +339,7 @@ class Property extends Component {
                             <React.Fragment>
                                 {images.length==0 &&(
                                     <div className="col-lg-8 col-10 col-md-9 mx-auto property-photo-container shadow pt-5 pb-4 px-5">
-                                        <img className="img-fluid" src={auth.getImageUrl(this.state.data.propertyinfo.thumbnail)}></img>
+                                        <img className="img-fluid" src={auth.getImageUrl(this.state.data.propertyInfo.thumbnail)}></img>
                                     </div>
                                 )}
                                 {images.length>0 && (<div className="col-lg-8 col-10 col-md-9 mx-auto property-photo-container shadow pt-5 pb-4 px-5">
@@ -330,7 +354,7 @@ class Property extends Component {
                                 >
                                 {images.map((item)=>
                                         (<Magnifier
-                                            imageSrc={auth.getImageUrl(item.url)}
+                                            imageSrc={auth.getImageUrl(item)}
                                             imageAlt="عکسی از ملک"
                                             touchActivation={"doubleTap"}
                                         />)
@@ -342,11 +366,13 @@ class Property extends Component {
                                     {areas.length > 0 && (<div className="row">
                                         <div className="property-areas col-11 px-0 mx-auto d-flex flex-row">
                                             {areas.map((area)=>(
-                                                <div className="col p-2">{area.area_id.area_name}</div>
+                                                <div className="col p-2">{area.area_name}</div>
                                             ))}
                                         </div>
                                     </div>)}
                                     <div className="row">
+                                        { console.log('>>> stringProperties', stringProperties)}
+                                        { console.log('>>> Object.keys(stringProperties)', Object.keys(stringProperties))}
                                         {
                                             Object.keys(stringProperties).map((item) => (
                                                 (<div className="col-11 col-md-5 py-3 px-4 my-2 mx-auto single-property d-flex shadow-sm" key={item}>
