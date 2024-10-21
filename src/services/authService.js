@@ -60,13 +60,34 @@ export async function getAllProperty() {
 }
 
 export async function getfilteredProperties({maxPrice,minPrice,foundationMax,foundationMin,p_id},area,propertyState,paymentType,propertyType,roomCount) {
-  const apiEndPoint = apiUrl + `/PropertyApi/search/?min_price=${minPrice}&max_price=${maxPrice}&areas=${area.join()}&room_count=${roomCount.join()}&min_foundation=${foundationMin}&max_foundation=${foundationMax}&building_type=${propertyType.join()}&payment_type=${paymentType.join()}&property_state=${propertyState.join()}&p_id=${p_id}`;
-  // const apiEndPoint = apiUrl + `/PropertyApi/search/?min_price=0&max_price=999999999999&areas=[]&room_count=[]&min_foundation=0&max_foundation=999999999999&building_type=[]&payment_type=[]&property_state=[]`;//Needs to be updated
+  console.log()
+  // const apiEndPoint = apiUrl + `/PropertyApi/search/?&property_state=${propertyState.join()}&p_id=${p_id}`;
+  const apiEndPoint = apiUrl
+    + `/properties?populate=*&pagination[pageSize]=10000`
+    + (minPrice ? `&filters[price][$gte]=${minPrice}` : '')
+    + (maxPrice ? `&filters[price][$lte]=${maxPrice}`: '')
+    + (area.length > 0 ? createAreasFilter(area) : '')
+    + (foundationMin ? `&filters[foundation][$gte]=${foundationMin}` : '')
+    + (foundationMax ? `&filters[foundation][$lte]=${foundationMax}` : '')
+    // + `room_count=${roomCount.join()}` // da fuck
+    + (propertyType.length > 0 ? createInOperatorFilter('building_type', propertyType) : '')
+    + (paymentType.length > 0 ? createInOperatorFilter('payment_type', paymentType) : '')
+    + (propertyState.length > 0 ? createInOperatorFilter('property_state', propertyState) : '')
+    + (p_id ? `&filters[documentId][$eq]=${p_id}` : '');
+
   const result = await http.get(apiEndPoint);
-  // console.log(apiEndPoint)
-  // console.log(result.data)
-  return result.data.message;
+  console.log('>>> result: ', result);
+  // return result.data.message;
 }
+
+const createAreasFilter = (areas) => areas.reduce(
+  (result, area, index) => result + `&filters[areas][documentId][$in][${index}]=${area}`,
+  ''
+);
+const createInOperatorFilter = (filterName, valueArray) => valueArray.reduce(
+  (result, value, index) => result + `&filters[${filterName}][$in][${index}]=${value}`,
+  ''
+);
 
 export async function getSpecificProperty(id) {
   const apiEndPoint = apiUrl + `/properties/${id}?populate=*`;

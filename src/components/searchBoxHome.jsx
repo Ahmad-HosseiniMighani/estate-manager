@@ -43,6 +43,7 @@ class SearchBoxHome extends Form {
         { name: "بالای سه خواب", id: "3" },
       ],
   };
+
   schema={
     area: Joi.any(),
     propertyType: Joi.any(),
@@ -70,19 +71,23 @@ class SearchBoxHome extends Form {
     .regex(/^[0-9]+$/, "عدد").allow('')
     .error((errors) => this.ErrorsLang(errors)),
   }
+
   async componentDidMount(){
     try{
-      const area_choices = await auth.getAllAreas();
-      this.setState({area_choices})
-  }catch(error){
-      toast.error("مشکلی در بروزرسانی لیست منطقه ها رخ داده است... لطفا صفحه را رفرش کنید.")
+      const { data: { data: area_choices = [] } = {} } = await auth.getAllAreas();
+
+      this.setState({area_choices});
+    } catch (error) {
+        toast.error("مشکلی در بروزرسانی لیست منطقه ها رخ داده است... لطفا صفحه را رفرش کنید.")
+    }
   }
-  }
+
   doSubmit = () => {
     this.props.submitHandler(
       this.state.data
     )
   }
+
   render() {
     return (
         <section id="home-header">

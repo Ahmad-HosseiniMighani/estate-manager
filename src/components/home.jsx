@@ -76,27 +76,26 @@ class Home extends Component {
         this.setState({offset});
       };
     handleSearchClick  = async (data) => {
-    window.location.replace("/#houses")
+    window.location.replace("/#houses");
+
     try {
-        // console.log(data)
         let tempArea=[];
         let tempPropertyState=[];
         let tempPaymentType=[];
         let tempPropertyType=[];
         let tempRoomCount=[];
-        data.area.forEach(element => tempArea.push(element.area_name));
+        data.area.forEach(element => tempArea.push(element.documentId));
         data.propertyState.forEach(element => tempPropertyState.push(element.name));
         data.paymentType.forEach(element => tempPaymentType.push(element.name));
         data.propertyType.forEach(element => tempPropertyType.push(element.name));
         data.roomCount.forEach(element => tempRoomCount.push(element.id));
-        // console.log(tempArea.join())
-        // console.log(tempRoomCount)
+    
         const properties = await auth.getfilteredProperties(data,tempArea,tempPropertyState,tempPaymentType,tempPropertyType,tempRoomCount);
-        this.setState({
-            properties,
-            IsRequestDone: true,
-            pageCount: Math.ceil(properties.length / this.state.perPage),
-         });
+        // this.setState({
+        //     properties,
+        //     IsRequestDone: true,
+        //     pageCount: Math.ceil(properties.length / this.state.perPage),
+        //  });
     } catch (error) {
         toast.error("مشکلی در ارتباط با سرور پیش آمد :(");
         this.setState({ IsRequestDone: true });
