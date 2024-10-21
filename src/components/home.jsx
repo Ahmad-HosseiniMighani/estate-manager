@@ -26,13 +26,17 @@ class Home extends Component {
     }
     handleModal = (modalData) => {
         this.setState({ modalData });
-        $("#delete_property").show()
+        $("#delete_property").show();
     };
+
     handleDelete = async (propertyId,modalId) => {
         $("#delete_property").hide()
+
         const originalProperties = this.state.properties;
-        const properties = this.state.properties.filter((n) => n.id !== propertyId);
+        const properties = this.state.properties.filter(({ documentId }) => documentId !== propertyId);
+
         this.setState({ properties });
+
         try {
           await auth.deleteProperty(propertyId);
           toast.success("ملک با موفقیت حذف شد.");

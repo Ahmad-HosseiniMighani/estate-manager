@@ -35,14 +35,14 @@ class Property extends Component {
         }
     }
 
-    separateData(data, areas, images){
+    separateData (data, areas, images) {
         let result = {
             booleanProperties: {},
             stringProperties: {},
             propertyInfo: {}
         };
 
-        for (let item in data){
+        for (let item in data) {
             if (
                 item == "thumbnail"
                 || item == "address"
@@ -296,29 +296,35 @@ class Property extends Component {
 
         return result;
     }
+
     handleBooleanProperty(value){
         return value ? "col-11 col-md-5 py-3 my-2 mx-auto single-property shadow-sm text-center text-success" : "col-11 col-md-5 py-3 my-2 mx-auto single-property shadow-sm text-center text-danger";
     }
+
     handleBooleanPropertyIcon(value){
         return value ? <i className="fas fa-check ms-2"></i> : <i className="fas fa-times ms-2"></i>;
     }
+
     customRenderItem = (item, props) => <item.type {...item.props} {...props} />;
-    customRenderThumb = (children) => 
-            children.map((item) => {
-                return <img src={item.props.imageSrc} />;
+    customRenderThumb = (children) =>
+        children.map((item) => {
+            return <img src={item.props.imageSrc} />;
     });
-    render() { 
+
+    render() {
         const stringProperties = {...this.state.data.stringProperties};
         const booleanProperties = {...this.state.data.booleanProperties};
         let images = [];
         let areas = [];
+
         if(this.state.data !== "") {
             images = [...this.state.data.propertyInfo.images];
             areas = [...this.state.data.propertyInfo.areas]
         }
+
         const {IsRequestDone, data} = this.state;
-        // console.log(data)
-        return ( 
+
+        return (
             <section id="property">
                 <div className="container py-5">
                     <div className="row">
@@ -371,8 +377,6 @@ class Property extends Component {
                                         </div>
                                     </div>)}
                                     <div className="row">
-                                        { console.log('>>> stringProperties', stringProperties)}
-                                        { console.log('>>> Object.keys(stringProperties)', Object.keys(stringProperties))}
                                         {
                                             Object.keys(stringProperties).map((item) => (
                                                 (<div className="col-11 col-md-5 py-3 px-4 my-2 mx-auto single-property d-flex shadow-sm" key={item}>

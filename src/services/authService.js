@@ -97,11 +97,11 @@ export async function addProperty(data) {
 }
 
 export async function deleteProperty(id) {
-  let tempHttp = newInstance(getJwt());
-  const apiEndPoint = apiUrl + `/PropertyApi/PropertyCrud/?id=${id}`;
+  const tempHttp = newInstance(getJwt());
+  const apiEndPoint = apiUrl + `/properties/${id}`;
   const result = await tempHttp.delete(apiEndPoint);
-  // console.log(result.data)
-  return result.data;
+
+  return result;
 }
 
 export async function updatePropertyInfo(data,id){
