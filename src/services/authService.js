@@ -112,16 +112,17 @@ export async function getSpecificProperty(id) {
 }
 
 export async function getAllAreas() {
-  const apiEndPoint = apiUrl + "/areas/";
+  const apiEndPoint = apiUrl + "/areas?pagination[pageSize]=10000";
   const result = await http.get(apiEndPoint);
 
   return result;
 }
 
 export async function getAllNotifs() {
-  const apiEndPoint = apiUrl + "/NotificationApi/notification/";
+  const apiEndPoint = apiUrl + "/notifications?pagination[pageSize]=10000";
   const result = await http.get(apiEndPoint);
-  return result.data;
+
+  return result;
 }
 
 export async function addProperty(data) {

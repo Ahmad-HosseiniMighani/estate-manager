@@ -50,8 +50,7 @@ class Home extends Component {
 
     async componentDidMount() {
         try {
-            const res = await auth.getAllNotifs();
-            const notifs = res.message;
+            const { data: { data: notifs = [] } = {} } = await auth.getAllNotifs();
     
             this.setState({
                 notifs,

@@ -29,18 +29,19 @@ class NotificationManagement extends Form {
     schema={
         title: Joi.string()
             .required()
-            .label("منطقه")
+            .label("تیتر")
             .error((errors) => this.ErrorsLang(errors)),
         description: Joi.string()
             .required()
-            .label("منطقه")
+            .label("توضحیات")
             .error((errors) => this.ErrorsLang(errors)),
     }
+
     async componentDidMount() {
         try {
-            const result = await auth.getAllNotifs();
+            const { data: { data: notifs = [] } = {} } = await auth.getAllNotifs();
+
             // console.log(result)
-            const notifs = result.message;
             this.setState({ notifs, IsRequestDone: true });
         } catch (error) {
             // console.log(error)
