@@ -20,14 +20,16 @@ class Home extends Component {
         currentPage: 0,
         modalData: "",
     }
-    getFilteredData(){
+
+    getFilteredData() {
         const {properties,offset,perPage} = this.state;
         return properties.slice(offset, offset+perPage)
     }
+
     handleModal = (modalData) => {
         this.setState({ modalData });
         $("#delete_property").show();
-    };
+    }
 
     handleDelete = async (propertyId,modalId) => {
         $("#delete_property").hide()
@@ -44,18 +46,19 @@ class Home extends Component {
           toast.error("حذف ملک با شکست مواجه شد..");
           this.setState({ properties: originalProperties });
         }
-      };
+    }
+
     async componentDidMount() {
         try {
             const res = await auth.getAllNotifs();
             const notifs = res.message;
+    
             this.setState({
                 notifs,
              });
              $("#notif_modal").show()
-        } catch (error) {
+        } catch (error) {}
 
-        }
         try {
             const { data: { data: properties = [] } ={} } = await auth.getAllProperty();
 
@@ -84,18 +87,27 @@ class Home extends Component {
         let tempPaymentType=[];
         let tempPropertyType=[];
         let tempRoomCount=[];
+
         data.area.forEach(element => tempArea.push(element.documentId));
         data.propertyState.forEach(element => tempPropertyState.push(element.name));
         data.paymentType.forEach(element => tempPaymentType.push(element.name));
         data.propertyType.forEach(element => tempPropertyType.push(element.name));
         data.roomCount.forEach(element => tempRoomCount.push(element.id));
-    
-        const properties = await auth.getfilteredProperties(data,tempArea,tempPropertyState,tempPaymentType,tempPropertyType,tempRoomCount);
-        // this.setState({
-        //     properties,
-        //     IsRequestDone: true,
-        //     pageCount: Math.ceil(properties.length / this.state.perPage),
-        //  });
+
+        const { data: { data: properties = [] } ={} } = await auth.getfilteredProperties(
+            data,
+            tempArea,
+            tempPropertyState,
+            tempPaymentType,
+            tempPropertyType,
+            tempRoomCount
+        );
+
+        this.setState({
+            properties,
+            IsRequestDone: true,
+            pageCount: Math.ceil(properties.length / this.state.perPage),
+        });
     } catch (error) {
         toast.error("مشکلی در ارتباط با سرور پیش آمد :(");
         this.setState({ IsRequestDone: true });

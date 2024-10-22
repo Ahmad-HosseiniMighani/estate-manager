@@ -2,6 +2,7 @@ import jwtDecode from "jwt-decode";
 // import moment from "jalali-moment";
 import http from "./httpService";
 import { apiUrl, url } from "../config.js";
+import { indexOf } from "lodash";
 
 const accessToken = "accessToken";
 const refreshToken = "refreshToken";
@@ -69,25 +70,43 @@ export async function getfilteredProperties({maxPrice,minPrice,foundationMax,fou
     + (area.length > 0 ? createAreasFilter(area) : '')
     + (foundationMin ? `&filters[foundation][$gte]=${foundationMin}` : '')
     + (foundationMax ? `&filters[foundation][$lte]=${foundationMax}` : '')
-    // + `room_count=${roomCount.join()}` // da fuck
+    + (roomCount.length > 0 ? createRoomCountFilter(roomCount) : '')
     + (propertyType.length > 0 ? createInOperatorFilter('building_type', propertyType) : '')
     + (paymentType.length > 0 ? createInOperatorFilter('payment_type', paymentType) : '')
     + (propertyState.length > 0 ? createInOperatorFilter('property_state', propertyState) : '')
     + (p_id ? `&filters[documentId][$eq]=${p_id}` : '');
 
-  const result = await http.get(apiEndPoint);
-  console.log('>>> result: ', result);
-  // return result.data.message;
+  return await http.get(apiEndPoint);
 }
 
 const createAreasFilter = (areas) => areas.reduce(
   (result, area, index) => result + `&filters[areas][documentId][$in][${index}]=${area}`,
   ''
 );
+
 const createInOperatorFilter = (filterName, valueArray) => valueArray.reduce(
   (result, value, index) => result + `&filters[${filterName}][$in][${index}]=${value}`,
   ''
 );
+
+const createRoomCountFilter = (roomCount) => {
+  console.log('>>> room count:', roomCount);
+
+  if (roomCount.indexOf('3') >= 0) {
+    if (roomCount.length > 1) {
+      return roomCount.reduce(
+        (result, value, index) => {
+          return result + `&filters[$or][${index}][room_count][${value == 3 ? '$gte' : '$eq'}]=${value}`
+        },
+        ''
+      );
+    }
+
+    return `&filters[room_count][$gte]=${roomCount[0]}`;
+  }
+
+  return createInOperatorFilter('room_count', roomCount);
+}
 
 export async function getSpecificProperty(id) {
   const apiEndPoint = apiUrl + `/properties/${id}?populate=*`;

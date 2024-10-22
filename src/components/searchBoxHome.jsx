@@ -50,10 +50,7 @@ class SearchBoxHome extends Form {
     propertyState: Joi.any(),
     paymentType: Joi.any(),
     roomCount: Joi.any(),
-    p_id: Joi.string()
-    .label("کد ملک")
-    .regex(/^[0-9]+$/, "عدد").allow('')
-    .error((errors) => this.ErrorsLang(errors)),
+    p_id: Joi.string().allow(''),
     maxPrice: Joi.string()
     .label("حداکثر قیمت")
     .regex(/^[0-9]+$/, "عدد").allow('')
