@@ -201,18 +201,18 @@ export async function deleteArea(area_id){
 }
 
 export async function addNotif(data){
-  data.sender=getCurrentUser();
-  let tempHttp = newInstance(getJwt());
-  const apiEndPoint = apiUrl + "/NotificationApi/notificationCrud/";
-  const result = await tempHttp.post(apiEndPoint,data);
-  return result.data;
+  // data.sender = getCurrentUser();
+  const tempHttp = newInstance(getJwt());
+  const apiEndPoint = apiUrl + "/notifications";
+
+  return await tempHttp.post(apiEndPoint, { data });
 }
 
 export async function deleteNotif(notif_id){
-  let tempHttp = newInstance(getJwt());
-  const apiEndPoint = apiUrl + `/NotificationApi/notificationCrud/?id=${notif_id}`;
-  const result = await tempHttp.delete(apiEndPoint);
-  return result.data;
+  const tempHttp = newInstance(getJwt());
+  const apiEndPoint = apiUrl + `/notifications/${notif_id}`;
+
+  return await tempHttp.delete(apiEndPoint);
 }
 
 export async function uploadImage(image) {

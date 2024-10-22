@@ -53,7 +53,7 @@ class NotificationManagement extends Form {
     handleDelete = async (notifId) => {
         $("#delete_notif").hide()
         const originalAreas = this.state.notifs;
-        const notifs = this.state.notifs.filter((n) => n.id !== notifId);
+        const notifs = this.state.notifs.filter((n) => n.documentId !== notifId);
         this.setState({ notifs });
         try {
             await auth.deleteNotif(notifId);
@@ -96,15 +96,15 @@ class NotificationManagement extends Form {
         return { totalCount: allnotifs.length, data: notifs };
     };
     doSubmit = async () => {
-        const {data} = this.state;
-        // console.log(data);
-        // console.log(tempAreas)
+        const { data } = this.state;
+
         try{
             const res = await auth.addNotif(data);
-            if(res.status_code !== 200) throw res.message;
-            data.title="";
-            data.description="";
+
+            if (!(res.status == 200 || res.status == 201)) throw Error;
+
             toast.success("اعلان مورد نظر ثبت شد.");
+            this.setState({ data: {}})
             window.location.reload()
         }catch(error){
             // console.log(error)
