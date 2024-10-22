@@ -29,7 +29,6 @@ class Property extends Component {
                 IsRequestDone: true,
              });
         } catch (error) {
-            console.log('error', error);
             toast.error("مشکلی در ارتباط با سرور پیش آمد :(");
             this.setState({ IsRequestDone: true });
         }
