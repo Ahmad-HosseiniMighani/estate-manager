@@ -61,8 +61,6 @@ export async function getAllProperty() {
 }
 
 export async function getfilteredProperties({maxPrice,minPrice,foundationMax,foundationMin,p_id},area,propertyState,paymentType,propertyType,roomCount) {
-  console.log()
-  // const apiEndPoint = apiUrl + `/PropertyApi/search/?&property_state=${propertyState.join()}&p_id=${p_id}`;
   const apiEndPoint = apiUrl
     + `/properties?populate=*&pagination[pageSize]=10000`
     + (minPrice ? `&filters[price][$gte]=${minPrice}` : '')
@@ -90,8 +88,6 @@ const createInOperatorFilter = (filterName, valueArray) => valueArray.reduce(
 );
 
 const createRoomCountFilter = (roomCount) => {
-  console.log('>>> room count:', roomCount);
-
   if (roomCount.indexOf('3') >= 0) {
     if (roomCount.length > 1) {
       return roomCount.reduce(
@@ -145,10 +141,10 @@ export async function deleteProperty(id) {
 }
 
 export async function updatePropertyInfo(data,id){
-  let tempHttp = newInstance(getJwt());
-  const apiEndPoint = apiUrl + `/PropertyApi/PropertyCrud/?id=${id}`;
-  const result = await tempHttp.put(apiEndPoint,data);
-  return result.data;
+  const tempHttp = newInstance(getJwt());
+  const apiEndPoint = apiUrl + `/properties/${id}`;
+
+  return await tempHttp.put(apiEndPoint, { data });
 }
 
 export async function delPropertyImage(property_id,image_id){
@@ -232,8 +228,7 @@ export async function uploadImage(image) {
 }
 
 export function getImageUrl(imageSrc) {
-  console.log(apiUrl+imageSrc)
-  return url+imageSrc;
+  return url + imageSrc;
 }
 
 export function getJwt() {

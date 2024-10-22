@@ -314,7 +314,6 @@ class AddProperty extends Form {
 
       window.location.replace("/property/" + documentId);
     } catch (error) {
-      console.log('error', error);
       toast.error("ملک مورد نظر ثبت نشد. لطفا ورودی های خود را چک کنید.");
     }
   };

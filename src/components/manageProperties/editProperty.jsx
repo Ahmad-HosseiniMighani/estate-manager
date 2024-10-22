@@ -8,97 +8,97 @@ import Lds from "../common/lds";
 
 class EditProperty extends Form {
     state = {
-    data:{
-        address: "",
-        postalCode: "",
-        foundation: "",
-        roomCount: "",
-        rent: "",
-        floorCount: "",
-        unitPerFloor: "",
-        ageOfBuilding: "",
-        paymentType: "رهن",
-        buildingType: "ویلایی",
-        ownerName: "",
-        floorCover: "",
-        viewOfBuilding: "",
-        propertyState: "مسکونی",
-        entryType: "",
-        price: "",
-        kitchen: "",
-        parking: false,
-        elevator: false,
-        sauna: false,
-        pool: false,
-        lobby: false,
-        guardian: false,
-        warehouse: false,
-        balcony: false,
-        patio: false,
-        jacuzzi: false,
-        hall: false,
-        communities: false,
-        air_conditioner: false,
-        radiator: false,
-        fan: false,
-        coel: false,
-        package_feature: false,
-        chiller: false,
-        split: false,
-        heater: false,
+        data: {
+            address: "",
+            postal_code: "",
+            foundation: "",
+            room_count: "",
+            rent: "",
+            floor_count: "",
+            unit_per_floor: "",
+            age_of_building: "",
+            payment_type: "رهن",
+            building_type: "ویلایی",
+            owner_name: "",
+            floor_cover: "",
+            view_of_building: "",
+            property_state: "مسکونی",
+            entry_type: "",
+            price: "",
+            kitchen: "",
+            parking: false,
+            elevator: false,
+            sauna: false,
+            pool: false,
+            lobby: false,
+            guardian: false,
+            warehouse: false,
+            balcony: false,
+            patio: false,
+            jacuzzi: false,
+            hall: false,
+            communities: false,
+            air_conditioner: false,
+            radiator: false,
+            fan: false,
+            coel: false,
+            package_feature: false,
+            chiller: false,
+            split: false,
+            heater: false,
+            thumbnail:"",
+            areas:[]
+        },
+        preselectedAreas:[],
+        property_id:"",
         thumbnail:"",
-        areas:[]
-      },
-      preselectedAreas:[],
-      property_id:"",
-      thumbnail:"",
-      images:[],
-      area_choices:[],
-      boolanProperty_choics:[
-        {key: "parking", name:"پارکینگ"},
-        {key: "elevator", name:"آسنانسور"},
-        {key: "sauna", name:"سونا"},
-        {key: "pool", name:"استخر"},
-        {key: "lobby", name:"لابی"},
-        {key: "guardian", name:"نگهبان"},
-        {key: "warehouse", name:"انبار"},
-        {key: "balcony", name:"بالکن"},
-        {key: "patio", name:"پاتیو"},
-        {key: "jacuzzi", name:"جکوزی"},
-        {key: "hall", name:"هال"},
-        {key: "communities", name:"سیستم ارتباطات"},
-        {key: "air_conditioner", name:"تهویه هوا"},
-        {key: "radiator", name:"رادیاتور"},
-        {key: "fan", name:"پنکه"},
-        {key: "coel", name:"کوئل"},
-        {key: "package_feature", name:"پکیج"},
-        {key: "chiller", name:"خنک کننده"},
-        {key: "split", name:"اسپیلت"},
-        {key: "heater", name:"سیستم گرمایشی"},
-      ],
-      buildingType_choices: [
-        { name: "ویلایی", _id: "ویلایی" },
-        { name: "آپارتمان", _id: "آپارتمان" },
-      ],
-      paymentType_choices: [
-        { name: "رهن", _id: "رهن" },
-        { name: "اجاره", _id: "اجاره" },
-        { name: "فروش", _id: "فروش" },
-      ],
-      propertyState_choices: [
-        { name: "مسکونی", _id: "مسکونی" },
-        { name: "اداری", _id: "اداری" },
-        { name: "تجاری", _id: "تجاری" },
-        { name: "انبار", _id: "انبار" },
-      ],
-      errors: {},
+        images:[],
+        area_choices:[],
+        boolanProperty_choics:[
+            {key: "parking", name:"پارکینگ"},
+            {key: "elevator", name:"آسنانسور"},
+            {key: "sauna", name:"سونا"},
+            {key: "pool", name:"استخر"},
+            {key: "lobby", name:"لابی"},
+            {key: "guardian", name:"نگهبان"},
+            {key: "warehouse", name:"انبار"},
+            {key: "balcony", name:"بالکن"},
+            {key: "patio", name:"پاتیو"},
+            {key: "jacuzzi", name:"جکوزی"},
+            {key: "hall", name:"هال"},
+            {key: "communities", name:"سیستم ارتباطات"},
+            {key: "air_conditioner", name:"تهویه هوا"},
+            {key: "radiator", name:"رادیاتور"},
+            {key: "fan", name:"پنکه"},
+            {key: "coel", name:"کوئل"},
+            {key: "package_feature", name:"پکیج"},
+            {key: "chiller", name:"خنک کننده"},
+            {key: "split", name:"اسپیلت"},
+            {key: "heater", name:"سیستم گرمایشی"},
+        ],
+        building_type_choices: [
+            { name: "ویلایی", _id: "ویلایی" },
+            { name: "آپارتمان", _id: "آپارتمان" },
+        ],
+        payment_type_choices: [
+            { name: "رهن", _id: "رهن" },
+            { name: "اجاره", _id: "اجاره" },
+            { name: "فروش", _id: "فروش" },
+        ],
+        property_state_choices: [
+            { name: "مسکونی", _id: "مسکونی" },
+            { name: "اداری", _id: "اداری" },
+            { name: "تجاری", _id: "تجاری" },
+            { name: "انبار", _id: "انبار" },
+        ],
+        errors: {},
     }
     schema={
         address: Joi.string()
             .required()
             .label("آدرس ملک")
             .error((errors) => this.ErrorsLang(errors)),
-        postalCode: Joi.string()
+        postal_code: Joi.string()
             .required()
             .label("کدپستی ملک")
             .regex(/^[0-9]+$/, "عدد")
@@ -111,7 +111,7 @@ class EditProperty extends Form {
             .regex(/^[0-9]+$/, "عدد")
             .min(1)
             .error((errors) => this.ErrorsLang(errors)),
-        roomCount: Joi.string()
+        room_count: Joi.string()
             .label("تعداد اتاق")
             .regex(/^[0-9]+$/, "عدد")
             .error((errors) => this.ErrorsLang(errors)),
@@ -119,46 +119,46 @@ class EditProperty extends Form {
             .label("اجاره")
             .regex(/^[0-9]+$/, "عدد")
             .error((errors) => this.ErrorsLang(errors)),
-        floorCount: Joi.string()
+        floor_count: Joi.string()
             .required()
             .label("تعداد طبقات")
             .regex(/^[0-9]+$/, "عدد")
             .error((errors) => this.ErrorsLang(errors)),
-        unitPerFloor: Joi.string()
+        unit_per_floor: Joi.string()
             .required()
             .label("تعداد واحد در هر طبقه")
             .regex(/^[0-9]+$/, "عدد")
             .error((errors) => this.ErrorsLang(errors)),
-        ageOfBuilding: Joi.string()
+        age_of_building: Joi.string()
             .required()
             .label("سن بنا")
             .regex(/^[0-9]+$/, "عدد")
             .error((errors) => this.ErrorsLang(errors)),
-        paymentType: Joi.string()
+        payment_type: Joi.string()
             .required()
             .label("نوع فروش")
             .error((errors) => this.ErrorsLang(errors)),
-        buildingType: Joi.string()
+        building_type: Joi.string()
             .required()
             .label("نوع ملک")
             .error((errors) => this.ErrorsLang(errors)),
-        ownerName: Joi.string()
+        owner_name: Joi.string()
             .required()
             .label("نام مالک")
             .error((errors) => this.ErrorsLang(errors)),
-        floorCover: Joi.string()
+        floor_cover: Joi.string()
             .required()
             .label("کفپوش")
             .error((errors) => this.ErrorsLang(errors)),
-        viewOfBuilding: Joi.string()
+        view_of_building: Joi.string()
             .required()
             .label("نمای ساختمان")
             .error((errors) => this.ErrorsLang(errors)),
-        propertyState: Joi.string()
+        property_state: Joi.string()
             .required()
             .label("شرایط ساختمان")
             .error((errors) => this.ErrorsLang(errors)),
-        entryType: Joi.string()
+        entry_type: Joi.string()
             .required()
             .label("نوع ورودی")
             .error((errors) => this.ErrorsLang(errors)),
@@ -175,9 +175,9 @@ class EditProperty extends Form {
         // images: Joi.any(),
         thumbnail: Joi.any(),
         areas: Joi.any(),
-        buildingType: Joi.any(),
-        propertyState: Joi.any(),
-        paymentType: Joi.any(),
+        building_type: Joi.any(),
+        property_state: Joi.any(),
+        payment_type: Joi.any(),
         parking: Joi.any(),
         elevator: Joi.any(),
         sauna: Joi.any(),
@@ -200,40 +200,60 @@ class EditProperty extends Form {
         heater: Joi.any(),
     }
     async componentDidMount(){
-        const area_choices = await auth.getAllAreas();
-        const rawData = await auth.getSpecificProperty(this.props.match.params.id);
-        if(isNaN(this.props.match.params.id) || rawData.status_code!==200) throw "Error";
-        const data= this.fixDataNumericValue(rawData.message);
-        data.areas=[];
-        const property_id = data.id;
+        const { data: { data: area_choices = [] } = {} } = await auth.getAllAreas();
+        const result = await auth.getSpecificProperty(this.props.match.params.id);
+
+        if (!(result.status == 200 || result.status == 201)) {
+            throw "Error";
+        }
+
+        const { data: { data: rawData = [] } = {} } = result;
+        const data = { ...this.fixDataNumericValue(rawData) };
+        // data.areas = [];
+        const property_id = data.documentId;
+
+        delete data.documentId;
         delete data.id;
-        delete data.releaseDateTime;
+        delete data.createdAt;
+        delete data.updatedAt;
+        delete data.publishedAt;
+        delete data.locale;
+        delete data.gallery;
+        delete data.localizations;
+
         const thumbnail = [{
             uploadStatus : "AlreadyExisted",
-            data_url: auth.getImageUrl(rawData.message.thumbnail),
-            uploadinfo : {url:rawData.message.thumbnail}
+            data_url: auth.getImageUrl(data.thumbnail),
+            uploadInfo : { url:data.thumbnail }
         }];
+
         const images = [];
-        rawData.images.forEach(image => {
+
+        (JSON.parse(rawData.gallery)).forEach((image, index) => {
             images.push( {
                 uploadStatus : "AlreadyExisted",
-                data_url: auth.getImageUrl(image.url),
-                uploadinfo : {id:image.id , url:image.url}
+                data_url: auth.getImageUrl(image),
+                uploadInfo : { id: index  , url:image }
             });
         });
-        let preselectedAreas=[];
-        for(let i=0;i<rawData.area.length;i++){
-            preselectedAreas.push(rawData.area[i].area_id);
+
+        const preselectedAreas = [];
+
+        for (let i=0;i<rawData.areas.length;i++) {
+            preselectedAreas.push(rawData.areas[i]);
         }
-        data.areas=[...area_choices];
+
+        // data.areas = [...area_choices];
+
         this.setState({data,area_choices,property_id,preselectedAreas,thumbnail,images})
     }
+
     onChangeThumbnail = async (thumbnail, addUpdateIndex) => {
-        if(addUpdateIndex===undefined){
+        if (addUpdateIndex===undefined) {
             let {thumbnail} = {...this.state};
             thumbnail=[];
             this.setState({thumbnail});
-        }else{
+        } else {
             this.setState({thumbnail});
             thumbnail[0] = await this.handleUploadImage(thumbnail[0]);
             this.setState({thumbnail})
@@ -256,95 +276,120 @@ class EditProperty extends Form {
             }
         }
     };
+
     onImageRemove = async (index) => {
         let images = this.state.images;//might get bugged?
-        const tempImage = images[index];
-        let {property_id} = this.state;
-        let flag=false;
-        if(images[index].uploadStatus === "Successfull") flag=true;
+        // const tempImage = images[index];
+        // let {property_id} = this.state;
+        // let flag=false;
+        // if(images[index].uploadStatus === "Successfull") flag=true;
         images[index] = "Deleted";
         this.setState({images});
-        if(flag)return;
-        try {
-            const res = await auth.delPropertyImage(property_id,tempImage.uploadinfo.id);
-            if(res.status_code !== 200) throw "Error";
-        } catch (error) {
-            // console.log(error);
-            toast.error("عکس مورد نظر پاک نشد.");
-            // console.log(tempImage)
-            images[index] = tempImage;
-            this.setState({images});
-        }
+        // if (flag) return;
+        // try {
+        //     const res = await auth.delPropertyImage(property_id,tempImage.uploadInfo.id);
+        //     if(res.status_code !== 200) throw "Error";
+        // } catch (error) {
+        //     // console.log(error);
+        //     toast.error("عکس مورد نظر پاک نشد.");
+        //     // console.log(tempImage)
+        //     images[index] = tempImage;
+        //     this.setState({images});
+        // }
     }
+
     async handleUploadImage(data){
         try {
             const res = await auth.uploadImage(data.file)
-            // console.log(res)
-            if(res.status_code !== 200) throw "upload Failled";
-            data.uploadinfo = res.message;
-            // console.log(res.message)
-            data.uploadStatus = "Successfull";
+
+            if (!(res.status === 200 || res.status === 201)) {
+                throw "Upload failed";
+            }
+
+            data.uploadInfo = res.data[0];
+            data.uploadStatus = "Successful";
+
             return data;
         } catch (error) {
             toast.error("مشکلی در ارتباط با سرور پیش آمد و عکس آپلود نشد. از فرمت فایل مورد نظر مطمئن باشید.");
+
             data.uploadStatus = "Failled";
+
             return data;
         }
     }
-    onImageSave = async (index) => {
-        let {images} = this.state;//might get bugged?
-        let {property_id} = this.state;
-        images[index].uploadStatus = undefined;
-        this.setState({images});
-        try {
-            const res = await auth.addPropertyImage(property_id,images[index].uploadinfo.id);
-            if(res.status_code !== 200) throw "Error";
-            images[index].uploadStatus = "Saved";
-            this.setState({images});
-        } catch (error) {
-            // console.log(error);
-            toast.error("عکس مورد نظر ثبت نشد.");
-            // console.log(error)
-            images[index].uploadStatus = "Successfull";
-            this.setState({images});
-        }
-    }
+    // onImageSave = async (index) => {
+    //     let {images} = this.state;//might get bugged?
+    //     let {property_id} = this.state;
+    //     images[index].uploadStatus = "Successfull";
+    //     this.setState({images});
+    //     try {
+
+    //         const res = await auth.addPropertyImage(property_id,images[index].uploadInfo.id);
+    //         if(res.status_code !== 200) throw "Error";
+    //         images[index].uploadStatus = "Saved";
+    //         this.setState({images});
+    //     } catch (error) {
+    //         toast.error("عکس مورد نظر ثبت نشد.");
+    //         images[index].uploadStatus = "Successfull";
+    //         this.setState({images});
+    //     }
+    // }
     handleBooleanPropetyOnClick = (item) => {
         const data = {...this.state.data};
         data[item.key] = !data[item.key];
         this.setState({data});
     }
-    handleBooleanProperty(value){
+    handleBooleanProperty(value) {
         return value ? "col-11 col-md-5 py-3 my-2 mx-auto boolean-property shadow-sm text-center text-success" : "col-11 col-md-5 py-3 my-2 mx-auto boolean-property shadow-sm text-center text-danger";
     }
-    handleBooleanPropertyIcon(value){
+    handleBooleanPropertyIcon(value) {
         return value ? <i className="fas fa-check ms-2"></i> : <i className="fas fa-times ms-2"></i>;
     }
-    fixDataNumericValue(data){
+    fixDataNumericValue(data) {
         for (const item in data) {
-            if(!isNaN(data[item]) && typeof(data[item]) !== "boolean") data[item] = data[item]+'';
+            if(!isNaN(data[item]) && typeof(data[item]) !== "boolean" && typeof(data[item]) !== "array") data[item] = data[item]+'';
         }
+
         return data;
     }
-    addArea = async (area_id) => {
-        return await auth.addPropertyArea(this.state.property_id,area_id);
-    }
-    removeArea = async (area_id) => {
-        return await auth.delPropertyArea(this.state.property_id,area_id);
-    }
+    // addArea = async (area_id) => {
+    //     return await auth.addPropertyArea(this.state.property_id,area_id);
+    // }
+    // removeArea = async (area_id) => {
+    //     return await auth.delPropertyArea(this.state.property_id,area_id);
+    // }
+
     doSubmit = async () => {
-        const {property_id,data,thumbnail} = this.state;
-        delete data.areas;
-        try{
-            if(thumbnail[0] !== undefined && thumbnail[0].uploadinfo !== undefined) data.thumbnail = thumbnail[0].uploadinfo.url;
+        const {property_id, data,thumbnail, images} = this.state;
+
+        try {
+            if (thumbnail[0] !== undefined && thumbnail[0].uploadInfo !== undefined) data.thumbnail = thumbnail[0].uploadInfo.url;
+
+            const { areas = [] } = data || {};
+            const areasDocId = areas.map(({ documentId }) => documentId);
+            data.areas = { connect: areasDocId };
+            const galleryImages = [];
+
+            for (let i = 0; i < images.length; i++) {
+                if (images[i].uploadInfo !== undefined) {
+                    galleryImages.push(images[i].uploadInfo.url);
+                }
+            }
+
+            data.gallery = JSON.stringify(galleryImages);
+
             const res = await auth.updatePropertyInfo(data,property_id);
-            if(res.status_code !== 200) throw "something went wrong :("
+
+            if (!(res.status === 200 || res.status === 201)) throw "something went wrong :("
+
             window.location.replace("/edit-property/"+property_id);
-        }catch(error){
+        } catch(error) {
             toast.error("برخی از تغییرات ملک مورد نظر ثبت نشد. لطفا ورودی های خود را چک کنید.");
         }
-      }
-    render() { 
+    }
+
+    render() {
         const {images,thumbnail,boolanProperty_choics,data} = this.state;
         const {isLoggedIn} = this.props;
         if (!isLoggedIn) window.location = process.env.PUBLIC_URL+"/";
@@ -358,7 +403,7 @@ class EditProperty extends Form {
                                 <h3 className="text-center mt-3 mb-5"><i className="fas fa-home"></i> تغییر اطلاعات ملک</h3>
                                 <form className="row" onSubmit={this.handleSubmit}>
                                 {this.renderInput(
-                                    "postalCode",
+                                    "postal_code",
                                     "کدپستی",
                                     "col-11 col-md-5 my-2 mx-auto",
                                     "کدپستی را وارد کنید..."
@@ -382,67 +427,67 @@ class EditProperty extends Form {
                                     "قیمت را وارد کنید..."
                                 )}
                                 {this.renderInput(
-                                    "roomCount",
+                                    "room_count",
                                     "تعداد اتاق",
                                     "col-11 col-md-5 my-2 mx-auto",
                                     "تعداد اتاق را وارد کنید..."
                                 )}
                                 {this.renderInput(
-                                    "floorCount",
+                                    "floor_count",
                                     "تعداد طبقات",
                                     "col-11 col-md-5 my-2 mx-auto",
                                     "تعداد طبقات را وارد کنید..."
                                 )}
                                 {this.renderInput(
-                                    "unitPerFloor",
+                                    "unit_per_floor",
                                     "تعداد واحد در هر طبقه",
                                     "col-11 col-md-5 my-2 mx-auto",
                                     "تعداد واحد در هر طبقه را وارد کنید..."
                                 )}
                                 {this.renderInput(
-                                    "ageOfBuilding",
+                                    "age_of_building",
                                     "سن بنا (سال)",
                                     "col-11 col-md-5 my-2 mx-auto",
                                     "سن بنا را وارد کنید..."
                                 )}
                                 {this.renderSelect(
-                                    "paymentType",
+                                    "payment_type",
                                     "رهن / اجاره / فروش",
-                                    this.state.paymentType_choices,
+                                    this.state.payment_type_choices,
                                     "col-11 col-md-5 my-2 mx-auto"
                                 )}
                                 {this.renderSelect(
-                                    "buildingType",
+                                    "building_type",
                                     "نوع ساختمان",
-                                    this.state.buildingType_choices,
+                                    this.state.building_type_choices,
                                     "col-11 col-md-5 my-2 mx-auto"
                                 )}
                                 {this.renderInput(
-                                    "ownerName",
+                                    "owner_name",
                                     "نام مالک",
                                     "col-11 col-md-5 my-2 mx-auto",
                                     "نام مالک را وارد کنید..."
                                 )}
                                 {this.renderInput(
-                                    "floorCover",
+                                    "floor_cover",
                                     "کفپوش",
                                     "col-11 col-md-5 my-2 mx-auto",
                                     "کفپوش را وارد کنید..."
                                 )}
                                 {this.renderInput(
-                                    "viewOfBuilding",
+                                    "view_of_building",
                                     "نمای ساختمان",
                                     "col-11 col-md-5 my-2 mx-auto",
                                     "نمای ساختمان را وارد کنید..."
                                 )}
                                 {this.renderSelect(
-                                    "propertyState",
+                                    "property_state",
                                     "نوع ملک",
-                                    this.state.propertyState_choices,
+                                    this.state.property_state_choices,
                                     "col-11 col-md-5 my-2 mx-auto"
                                 )}
                                 {this.renderInput(
-                                    "entryType",
+                                    "entry_type",
                                     "نوع ورودی",
                                     "col-11 col-md-5 my-2 mx-auto",
                                     "نوع ورودی را وارد کنید..."
@@ -460,14 +505,13 @@ class EditProperty extends Form {
                                     "آدرس را وارد کنید..."
                                 )}
                                 <div className="col-11 col-md-5 my-2 mx-auto">
-                                    {this.renderMultiSelect2(
+                                    {this.renderMultiSelect(
                                         "areas",
                                         "منطقه",
                                         "جستجو...",
                                         this.state.area_choices,
                                         "area_name",
                                         this.state.preselectedAreas
-                                        
                                     )}
                                 </div>
                                 {
@@ -570,7 +614,6 @@ class EditProperty extends Form {
                                                     <div className="image-item__btn-wrapper card-body text-center">
                                                         {/* <span className="p-2" onClick={() => onImageUpdate(index)}><i className="fas fa-edit"></i></span> */}
                                                         <span className="p-2" onClick={() => this.onImageRemove(index)}><i className="fas fa-trash-alt"></i></span>
-                                                        {image.uploadStatus !== "Saved" && image.uploadStatus !== "AlreadyExisted" && (<span className="p-2" onClick={() => this.onImageSave(index)}><i className="fas fa-check text-success"></i></span>)}
                                                     </div>
                                                 </div>
                                             </div>)
@@ -591,5 +634,5 @@ class EditProperty extends Form {
         </section> );
     }
 }
- 
+
 export default EditProperty;
